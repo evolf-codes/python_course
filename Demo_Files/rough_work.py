@@ -70,3 +70,15 @@ else:
 
 print(calling_in_sick)
   # set this to True or False with Boolean Logic and Conditionals!
+
+
+# Define your code below:
+sounds = ["super", "cali", "fragil", "istic", "expi", "ali", "docious"]
+
+result = ""
+for x in sounds:
+    result = result + x
+
+result = result.upper()
+print(result)
+
