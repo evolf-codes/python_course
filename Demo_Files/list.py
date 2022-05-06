@@ -89,15 +89,29 @@ print(evens)
 cond = [x*2 if x%2 == 0 else x/2 for x in num]
 print(cond)
 
-
+# first character of each word
 names = ['Elise','Tim','Matt']
 answer = [x[0] for x in names]
 print(answer)
 
-
+# print only divisible by 12
 answer =  [x for x in range(1,101) if x%12==0]
 print(answer)
 
+# print without values
 val = 'amazing'
 answer = [x for x in val if x not in list('aeiou')]
 print(answer)
+
+# nested lists
+answer = [[i for i in range(3)]for x in range(3)]
+print(answer)
+
+# create nested list without list comprehension
+lst=[]
+lst2=[]
+for x in range(10):
+    lst.append(x)
+    for num in range(10):
+        lst2.append(lst)
+print(lst2)
