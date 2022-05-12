@@ -1,4 +1,5 @@
 import pprint
+import random
 
 cards = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
 suits = ['SPADES','HEARTS','DIAMONDS','CLUBS']
@@ -23,6 +24,6 @@ for each in decks:
 #
 # for x in deck_4:
 #     deck_main.append(x)
-
+random.shuffle(deck_main)
 pprint.pprint(deck_main)
 
