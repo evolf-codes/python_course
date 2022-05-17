@@ -14,60 +14,71 @@ import requests
 
 #  1. Parse the order book snapshot in the REST API or the  WebSockets
 #  API and ensure the top ask price is greater than the top bid  price.
+list_of_currnecy_pairs = ['XBTUSD', 'XBTEUR', 'XBTCAD', 'ETHUSD']
 
-list_of_currnecy_pairs=['XBTUSD','XBTEUR','XBTCAD','ETHUSD','ETHCAD']
 
-for x in list_of_currnecy_pairs:
+def currency_pairs(currency_pair):
+    # for x in list_of_currnecy_pairs:
 
     url = 'https://api.kraken.com/0/public/Depth'
     response = requests.get(
         url,
         headers={'Accept': 'application/json'},
-        params={'pair': x}
+        params={'pair': currency_pair}
     )
 
     book_data = response.json()
-    #print(book_data)
+    # print(book_data)
     currency_key = list(book_data['result'].keys())[0]
+    #print(currency_key)
 
-    asks = book_data['result'][currency_key]['asks'][0]
-    a=(asks[0])
+    if currency_key != None:
 
-    bids = book_data['result'][currency_key]['bids'][0]
-    b=(bids[0])
+        asks = book_data['result'][currency_key]['asks'][0]
+        a = (asks[0])
 
-    if a > b:
-        print(f"SUCCESS ======== {currency_key} ask: {a} > bid: {b}")
-    else:
-        print(f"ERROR ============= {currency_key} bid: {b} >= ask: {a}")
-    #asks = book_data['result'][currency_key]
+        bids = book_data['result'][currency_key]['bids'][0]
+        b = (bids[0])
+
+        if a > b:
+            return (f"{currency_pair}: ask= {a} bid = {b} ===> OK")
+        else:
+            return (f"{currency_pair}: ask= {a} bid = {b} ===> FAILED")
+
+
+#print(currency_pairs('XBTUSD'))
+
+
+# if a > b:
+#     print(f"SUCCESS ======== {currency_key} ask: {a} > bid: {b}")
+# else:
+#     print(f"ERROR ============= {currency_key} bid: {b} >= ask: {a}")
+# asks = book_data['result'][currency_key]
 
 # 4. Parse various JSON messages used in the API responses and  check
 # that the values have the correct data types.
 
+def type_check():
+    url = 'https://api.kraken.com/0/public/Assets'
+    response = requests.get(
+        url,
+        headers={'Accept': 'application/json'},
+        params={'asset': 'XBT'}
+    )
 
-url = 'https://api.kraken.com/0/public/Assets'
-response = requests.get(
-    url,
-    headers={'Accept': 'application/json'},
-    params={'asset': 'XBT'}
-)
+    print(response.json())
+    data = response.json()
 
+    # check if the KEYS are OBJECTS
+    keys = list(data.keys())
+    for x in keys:
+        if (isinstance(data[x], object)):
+            print(f"{x} is on OBJECT")
 
-print(response.json())
-data = response.json()
+    # check if the KEYS inside the ASSET belong to the correct types
 
-# check if the KEYS are OBJECTS
-keys = list(data.keys())
-for x in keys:
-    if (isinstance(data[x],object)):
-        print(f"{x} is on OBJECT")
+    keys_result = list(data['result']['XXBT'])
+    print(keys_result)
 
-
-# check if the KEYS inside the ASSET belong to the correct types
-
-keys_result = list(data['result']['XXBT'])
-print(keys_result)
-
-for x in keys_result:
-    print (type(data['result']['XXBT'][x]))
+    for x in keys_result:
+        print(type(data['result']['XXBT'][x]))
